@@ -1,7 +1,7 @@
 /* File: i3_vim_focus.c
  *
  * Compile with:
- * gcc -lX11 -lxdo -o i3_vim_focus i3_vim_focus.c $(pkg-config --libs --cflags i3ipc-glib-1.0)
+ * gcc main.c -lX11 -lxdo -o i3_vim_focus $(pkg-config --libs --cflags i3ipc-glib-1.0)
  *
  */
 
@@ -21,7 +21,7 @@
 
 int main(int argc, char *argv[]) {
 
-    char cmd[20];
+    char cmd[200];
 
     unsigned char *name;
     int name_len;
@@ -40,17 +40,26 @@ int main(int argc, char *argv[]) {
     xdo_get_active_window(xdo, &window_ret);
     xdo_get_window_name(xdo, window_ret, &name, &name_len, &name_type);
 
-    if(strstr(name, "/usr/bin/vim")) 
+    if(strstr(name, "nvim")) 
     {
-        strcpy(cmd, "Escape+");
+        strcpy(cmd, (argv[1][0] == 'l')? "t":
+                    (argv[1][0] == 'd')? "g" :
+                    (argv[1][0] == 'u')? "z" :
+                                        "p");
 
-
-        strcat(cmd, (argv[1][0] == 'l')? "h" :
-                    (argv[1][0] == 'd')? "j" :
-                    (argv[1][0] == 'u')? "k" :
-                                         "l" );
-
+        /* strcat(cmd, "&& sleep 1. && xdotool key Super+Escape"); */
+        /* charcodemap_t keys; */
+        /* xdo_clear_active_modifiers(xdo, window_ret, &keys, 1); */
+        /* strcpy(cmd, "Ctrl+backslash"); */
         xdo_send_keysequence_window(xdo, window_ret, cmd, 0);
+        /* strcpy(cmd, "Ctrl+n"); */
+        /* xdo_send_keysequence_window(xdo, window_ret, cmd, 0); */
+        /* strcpy(cmd, "g+z+"); */
+        /* strcat(cmd, (argv[1][0] == 'l')? "h" : */
+        /*             (argv[1][0] == 'd')? "j" : */
+        /*             (argv[1][0] == 'u')? "k" : */
+        /*                                 "l"); */
+        /* xdo_send_keysequence_window(xdo, window_ret, cmd, 0); */
     }
     else
     {
