@@ -3,16 +3,15 @@ Vim plugin for seamless i3/vim navigation
 
 Allows i3 direction keys to control vim splits and i3 windows seamlessly
 
-The `i3-vim-focus` folder has a Rust program that should be installed on the
-user's path. It can be build with `cargo build --release`.
+Requires the use of keyboard remapping like https://github.com/rgreenblatt/keyboard
 
-The following should be added to your `~/.vimrc`
+The following should be added to your `~/.vimrc` / `init.nvim`
 
 ```viml
-map gwl :call Focus('right', 'l')<CR>
-map gwh :call Focus('left', 'h')<CR>
-map gwk :call Focus('up', 'k')<CR>
-map gwj :call Focus('down', 'j')<CR>
+map gzl :call Focus('right', 'l')<CR>
+map gzh :call Focus('left', 'h')<CR>
+map gzk :call Focus('up', 'k')<CR>
+map gzj :call Focus('down', 'j')<CR>
 ```
 
 The i3 config needs to be updated with the following bindings.
@@ -24,5 +23,4 @@ bindsym $mod+k exec "i3-vim-focus up"
 bindsym $mod+l exec "i3-vim-focus right"
 ```
 
-Finally, this project needs to be installed as a vim plugin using
-something like pathogen.
+Finally, this project needs to be installed as a vim plugin.
